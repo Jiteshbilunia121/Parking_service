@@ -1,6 +1,9 @@
 package org.example.parking_service.controller;
 
 
+import jakarta.servlet.ServletOutputStream;
+import org.example.parking_service.dto.CheckinRequest;
+import org.example.parking_service.dto.CheckoutRequest;
 import org.example.parking_service.model.ParkingSlot;
 import org.example.parking_service.service.ParkingSlotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +21,23 @@ public class ParkingController {
     private ParkingSlotService parkingService;
 
     @PostMapping("/checkin")
-    public ResponseEntity<ParkingSlot> checkIn(@RequestParam String slotNumber,
-                                               @RequestParam String vehicleNumber,
-                                               @RequestParam Long userId) {
+    public ResponseEntity<ParkingSlot> checkIn(@RequestBody CheckinRequest checkinRequest) {
+        String slotNumber = checkinRequest.getSlotNumber();
+        String vehicleNumber = checkinRequest.getVehicleNUmber();
+        Long userId = checkinRequest.getUserId();
+        System.out.println("slot number: " + slotNumber);
+        System.out.println("User id: " + userId);
+        System.out.println("vehicle number " + checkinRequest.getVehicleNUmber());
+
         ParkingSlot slot = parkingService.occupySlot(slotNumber, vehicleNumber, userId);
         return ResponseEntity.ok(slot);
     }
+//    @PostMapping("/checkin")
+//    public ResponseEntity<ParkingSlot> checkin(@RequestParam String slotNumber, @RequestParam String vehicleNumber, @RequestParam Long userId) {
+//        System.out.println(slotNumber+" "+vehicleNumber+" "+userId);
+//        ParkingSlot slot = parkingService.occupySlot(slotNumber, vehicleNumber, userId);
+//        return new ResponseEntity<>(slot, HttpStatus.OK);
+//    }
 
     @GetMapping("/availability")
     public ResponseEntity<List<ParkingSlot>> availability(){
@@ -37,10 +51,10 @@ public class ParkingController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<String> checkoutVehicle(@RequestParam String slotNumber) {
+    public ResponseEntity<String> checkoutVehicle(@RequestBody CheckoutRequest checkoutRequest) {
         try {
-            parkingService.freeSlot(slotNumber);
-            return ResponseEntity.ok("Slot " + slotNumber + " is now vacant.");
+            parkingService.freeSlot(checkoutRequest.getSlotNumber());
+            return ResponseEntity.ok("Slot " + checkoutRequest.getSlotNumber() + " is now vacant.");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
