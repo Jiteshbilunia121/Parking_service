@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CheckoutRequest {
+public class CheckoutRequest{
     private String slotNumber;
     private String message;
 }
