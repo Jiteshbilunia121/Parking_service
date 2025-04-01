@@ -19,7 +19,6 @@ import static org.apache.kafka.common.requests.DeleteAclsResponse.log;
 public class CheckoutEventListener {
 
 
-
 //    @KafkaListener(topics = "Parking.slot.vacant", groupId = "parking-service-group")
 //    public void handleCheckoutEvent(CheckoutEvent event) {
 //
@@ -37,13 +36,13 @@ public class CheckoutEventListener {
     @KafkaListener(topics = "parking.slot.vacant")
     public void listen(@Payload CheckoutEvent event, @Header(KafkaHeaders.GROUP_ID) String groupId) {
 
-        final String users_api = "http://USER-SERVICE/api/users/pay";
+        final String users_api = "http://localhost:8080/api/users/pay";
         System.out.println("Group ID: " + groupId);
         System.out.println("Checkout event: " + event.getSlotNumber() + " " + event.getVehicleNumber() + " " + event.getUserId() + " " + event.getAmount());
 
         PaymentRequest paymentRequest = new PaymentRequest(event.getUserId(), event.getVehicleNumber(), event.getAmount());
 
-        // Call /pay API in User Service
+        // Inernal API Call to  /pay API in User Service
         try {
 
             ResponseEntity<PaymentResponse> response = restTemplate.postForEntity(
@@ -52,8 +51,12 @@ public class CheckoutEventListener {
                     PaymentResponse.class
             );
 
+            PaymentResponse paymentResponse = response.getBody();
+
             if (response.getStatusCode() == HttpStatus.OK) {
-                log.info("Payment successful for vehicle: {}", event.getVehicleNumber());
+                assert paymentResponse != null;
+                log.info("Payment successful for vehicle: {}", event.getVehicleNumber() );
+                log.info("Transaction ID: {}", paymentResponse.getTransactionId());
             } else {
                 log.error("Payment failed for vehicle: {}", event.getVehicleNumber());
             }
@@ -65,4 +68,5 @@ public class CheckoutEventListener {
 
 
 }
+
 
