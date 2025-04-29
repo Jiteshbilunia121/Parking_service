@@ -49,6 +49,9 @@ public class ParkingSlotService {
 
             ParkingSlot savedSlot = parkingSlotRepository.save(slot);
 
+//            System.out.println("Kafka bootstrap server: " + "${spring.kafka.bootstrap-servers}");
+
+
 
             TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
                 @Override

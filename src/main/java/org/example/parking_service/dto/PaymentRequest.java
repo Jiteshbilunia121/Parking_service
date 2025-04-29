@@ -15,5 +15,7 @@ public class PaymentRequest {
     private Long userId;
     private String vehicleNumber;
     private double amount;
+    private String paymentMethodId;
+
 
 }

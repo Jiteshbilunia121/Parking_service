@@ -36,11 +36,11 @@ public class CheckoutEventListener {
     @KafkaListener(topics = "parking.slot.vacant")
     public void listen(@Payload CheckoutEvent event, @Header(KafkaHeaders.GROUP_ID) String groupId) {
 
-        final String users_api = "http://localhost:8080/api/users/pay";
+        final String users_api = "http://user-service:8080/api/users/pay";
         System.out.println("Group ID: " + groupId);
         System.out.println("Checkout event: " + event.getSlotNumber() + " " + event.getVehicleNumber() + " " + event.getUserId() + " " + event.getAmount());
 
-        PaymentRequest paymentRequest = new PaymentRequest(event.getUserId(), event.getVehicleNumber(), event.getAmount());
+        PaymentRequest paymentRequest = new PaymentRequest(event.getUserId(), event.getVehicleNumber(), event.getAmount(), "pm_card_visa");
 
         // Inernal API Call to  /pay API in User Service
         try {

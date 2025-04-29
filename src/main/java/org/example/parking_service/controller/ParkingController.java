@@ -1,7 +1,6 @@
 package org.example.parking_service.controller;
 
 
-import jakarta.servlet.ServletOutputStream;
 import org.example.parking_service.dto.CheckinRequest;
 import org.example.parking_service.dto.CheckoutRequest;
 import org.example.parking_service.model.ParkingSlot;
@@ -19,6 +18,16 @@ public class ParkingController {
 
     @Autowired
     private ParkingSlotService parkingService;
+
+//
+    @GetMapping("/")
+    @ResponseBody
+    public ResponseEntity<String> home() {
+//            return ResponseEntity.ok("Parking Service is running!");
+        return ResponseEntity.ok("Parking service running");
+    }
+
+
 
     @PostMapping("/checkin")
     public ResponseEntity<ParkingSlot> checkIn(@RequestBody CheckinRequest checkinRequest) {
