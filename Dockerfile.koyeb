@@ -1,5 +1,0 @@
-# Use Koyeb's official Docker Compose runner image
-FROM koyeb/docker-compose
-
-# Copy all project files into the container
-COPY . /app
