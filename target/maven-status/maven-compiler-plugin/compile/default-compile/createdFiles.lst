@@ -10,6 +10,7 @@ org\example\parking_service\service\ParkingSlotService.class
 org\example\parking_service\config\RestConfig.class
 org\example\parking_service\dto\CheckinRequest.class
 org\example\parking_service\service\ParkingSlotService$2.class
+org\example\parking_service\config\WebConfig.class
 org\example\parking_service\dto\PaymentRequest.class
 org\example\parking_service\repository\ParkingSlotRepository.class
 org\example\parking_service\event\CheckoutEvent.class

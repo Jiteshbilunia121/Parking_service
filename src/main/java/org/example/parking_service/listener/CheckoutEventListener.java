@@ -43,27 +43,27 @@ public class CheckoutEventListener {
         PaymentRequest paymentRequest = new PaymentRequest(event.getUserId(), event.getVehicleNumber(), event.getAmount(), "pm_card_visa");
 
         // Inernal API Call to  /pay API in User Service
-        try {
-
-            ResponseEntity<PaymentResponse> response = restTemplate.postForEntity(
-                    users_api,
-                    paymentRequest,
-                    PaymentResponse.class
-            );
-
-            PaymentResponse paymentResponse = response.getBody();
-
-            if (response.getStatusCode() == HttpStatus.OK) {
-                assert paymentResponse != null;
-                log.info("Payment successful for vehicle: {}", event.getVehicleNumber() );
-                log.info("Transaction ID: {}", paymentResponse.getTransactionId());
-            } else {
-                log.error("Payment failed for vehicle: {}", event.getVehicleNumber());
-            }
-
-        } catch (Exception e) {
-            log.error("Error calling User Service for payment", e);
-        }
+//        try {
+//
+//            ResponseEntity<PaymentResponse> response = restTemplate.postForEntity(
+//                    users_api,
+//                    paymentRequest,
+//                    PaymentResponse.class
+//            );
+//
+//            PaymentResponse paymentResponse = response.getBody();
+//
+//            if (response.getStatusCode() == HttpStatus.OK) {
+//                assert paymentResponse != null;
+//                log.info("Payment successful for vehicle: {}", event.getVehicleNumber() );
+//                log.info("Transaction ID: {}", paymentResponse.getTransactionId());
+//            } else {
+//                log.error("Payment failed for vehicle: {}", event.getVehicleNumber());
+//            }
+//
+//        } catch (Exception e) {
+//            log.error("Error calling User Service for payment", e);
+//        }
     }
 
 
